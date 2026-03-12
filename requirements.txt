@@ -1,0 +1,10 @@
+boto3==1.34.0
+pyspark==3.3.2
+pandas==2.0.3
+pyarrow==14.0.1
+pytest==7.4.3
+pytest-cov==4.1.0
+moto[s3,glue,dynamodb,sns]==4.2.14
+great-expectations==0.18.8
+requests==2.31.0
+python-dotenv==1.0.0
