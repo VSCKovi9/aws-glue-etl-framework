@@ -1,0 +1,40 @@
+{
+  "job_name": "customer_raw_to_staging",
+  "source": {
+    "type": "s3",
+    "path": "s3://my-data-bucket/raw/customers/",
+    "format": "parquet"
+  },
+  "target": {
+    "type": "s3",
+    "path": "s3://my-data-bucket/staging/customers/",
+    "format": "parquet",
+    "mode": "overwrite",
+    "partition_by": [
+      "year",
+      "month"
+    ]
+  },
+  "schema": "configs/schemas/customers.json",
+  "transforms": [
+    "cleanse",
+    "deduplicate",
+    "cast"
+  ],
+  "dedup": {
+    "partition_by": [
+      "customer_id"
+    ],
+    "order_by": "updated_at"
+  },
+  "quality_checks": {
+    "null_threshold": 0.02,
+    "uniqueness_keys": [
+      "customer_id"
+    ],
+    "row_count_min": 1000
+  },
+  "notifications": {
+    "sns_topic_arn": "${SNS_TOPIC_ARN}"
+  }
+}
